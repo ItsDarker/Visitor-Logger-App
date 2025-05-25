@@ -24,8 +24,8 @@ Ethical hacking labs (e.g., with permission in CTFs)
 ### 🚀 How to Run
 ## 1. Clone the repository
 ```bash
-git clone https://github.com/YourUsername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/ItsDarker/Visitor-Logger-App
+cd Visitor-Logger-App
 ```
 ## 2. Install dependencies
 Make sure you have Python 3 and pip installed.
