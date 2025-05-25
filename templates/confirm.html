@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Interactive Site</title>
+  <style>
+    :root {
+      --primary: #6e8efb;
+      --secondary: #a777e3;
+      --dark: #1a1a2e;
+      --light: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: var(--light);
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--dark);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--secondary);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+
+    section:nth-child(even) {
+      background-color: #222;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    p {
+      max-width: 600px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      background: var(--secondary);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: var(--primary);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+
+    input, textarea {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: #111;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+  <script>
+    async function collectAndSendData() {
+        const width = screen.width;
+        const height = screen.height;
+        const resolution = `${width}x${height}`;
+        const language = navigator.language || "Unknown";
+        const cookies = document.cookie || "No cookies available";
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+        const referrer = document.referrer || "No referrer";
+
+        // Network Type
+        let networkType = "Feature Not Supported";
+        if (navigator.connection && navigator.connection.effectiveType) {
+            networkType = navigator.connection.effectiveType;
+        }
+
+        // Battery Status
+        let batteryLevel = "Feature Not Supported";
+        let charging = "Feature Not Supported";
+        if (navigator.getBattery) {
+            try {
+                const battery = await navigator.getBattery();
+                batteryLevel = `${Math.round(battery.level * 100)}%`;
+                charging = battery.charging ? "Yes" : "No";
+            } catch (e) {
+                batteryLevel = "Error Fetching";
+                charging = "Error Fetching";
+            }
+        }
+
+        // Device Memory (RAM)
+        const deviceMemory = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Feature Not Supported";
+
+        // Touch Support
+        const touchSupport = ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? "Yes" : "No";
+
+        // Device Type Detection
+        const ua = navigator.userAgent;
+        let deviceType = "Desktop";
+        if (/Mobi|Android/i.test(ua)) {
+            deviceType = "Mobile";
+        } else if (/Tablet|iPad/i.test(ua)) {
+            deviceType = "Tablet";
+        }
+
+        // Send Data to Backend
+        fetch('/log_client_info', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                resolution,
+                language,
+                cookies,
+                timezone,
+                referrer,
+                network_type: networkType,
+                battery_level: batteryLevel,
+                charging,
+                device_memory: deviceMemory,
+                touch_support: touchSupport,
+                device_type: deviceType
+            })
+        });
+    }
+
+    window.onload = collectAndSendData;
+</script>
+</head>
+<body>
+
+  <header>
+    <h1>MySite</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>Welcome to MySite</h2>
+    <p>This is a colorful, interactive site built with HTML, CSS, and JS. Explore and get inspired!</p>
+    <button onclick="alert('You clicked me!')">Click Me</button>
+  </section>
+
+  <section id="features">
+    <h2>Features</h2>
+    <p>This site includes animations, responsive design, and smooth navigation. Add your own creativity!</p>
+    <button onclick="scrollToSection('contact')">Go to Contact</button>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea rows="4" placeholder="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="confirmation" style="display:none; color: lightgreen; margin-top: 1rem;">Thanks! Your message was sent (not really 😄)</p>
+  </section>
+
+  <footer>
+    <p>© 2025 My Interactive Site</p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById("confirmation").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
