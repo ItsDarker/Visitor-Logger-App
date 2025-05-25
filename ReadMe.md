@@ -92,14 +92,101 @@ All log entries are saved to:
 ```bash
 access_logs.txt
 ```
-### ✅ Legal & Ethical Alternatives for Learning
-- For ethical cybersecurity practice, try:
+# 📡 Flask App + Ngrok Setup Guide
 
-- OWASP Juice Shop
+**Educational & Ethical Use Only**
 
-- TryHackMe
+This guide helps you expose your Flask app to the internet using Ngrok, for demos or internal testing **with permission**.
 
-- Hack The Box
+---
 
-- GoPhish
+## ⚠️ Disclaimer
+
+This project is intended for **local testing** or **educational demonstrations** only.  
+Never use this method to collect user information without **informed consent**.
+
+---
+
+## 🚀 Step-by-Step Instructions
+
+### ✅ Step 1: Start Your Flask App
+
+Make sure your `app.py` is running on port **80**.
+
+```bash
+python app.py
+```
+
+---
+
+### ✅ Step 2: Install Ngrok
+
+Download from [ngrok.com](https://ngrok.com/download)
+
+Then run:
+
+```bash
+ngrok config add-authtoken <your_token>
+```
+
+Get your token from: https://dashboard.ngrok.com/get-started/setup
+
+---
+
+### ✅ Step 3: Start Ngrok
+
+Open a **new terminal** window and run:
+
+```bash
+ngrok http 80
+```
+
+Example output:
+
+```
+Forwarding    https://abc123.ngrok.io -> http://localhost:80
+```
+
+---
+
+### ✅ Step 4: Use the Ngrok URL
+
+Open the generated link:
+
+```
+https://abc123.ngrok.io
+```
+
+> ⚠️ Only share this with people who understand and agree to what you're showing.
+
+---
+
+### ✅ Step 5: Monitor Logs
+
+Check the `access_logs.txt` file for visitor data.
+
+Your Flask terminal will also show logs in real time.
+
+---
+
+## 🔐 Optional: Protect with Username/Password
+
+```bash
+ngrok http --auth "demo:password" 80
+```
+
+---
+
+## ✅ Learn Cybersecurity the Right Way
+
+Use legal platforms like:
+
+- [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/)
+- [TryHackMe](https://tryhackme.com)
+- [Hack The Box](https://hackthebox.com)
+
+---
+
+Stay safe, ethical, and curious! 🧠
+
 
